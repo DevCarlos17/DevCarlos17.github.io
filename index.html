@@ -268,19 +268,34 @@
       if (e.key >= '1' && e.key <= '5')             goTo(parseInt(e.key) - 1);
     });
 
+    // Overlay transparente que captura el primer movimiento cuando el navbar está oculto
+    // (necesario porque los eventos del mouse dentro del iframe no llegan al documento padre)
+    const mouseWatcher = document.createElement('div');
+    mouseWatcher.style.cssText = 'position:fixed;inset:0;z-index:9997;background:transparent;pointer-events:none;';
+    document.body.appendChild(mouseWatcher);
+    mouseWatcher.addEventListener('mousemove', () => {
+      mouseWatcher.style.pointerEvents = 'none';
+      showNavbar();
+    });
+
     // Auto-hide navbar on inactivity
     let hideTimer = null;
 
     function showNavbar() {
+      mouseWatcher.style.pointerEvents = 'none';
       navbar.classList.remove('hidden');
       clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => navbar.classList.add('hidden'), 3000);
+      hideTimer = setTimeout(() => {
+        navbar.classList.add('hidden');
+        mouseWatcher.style.pointerEvents = 'auto';
+      }, 3000);
     }
 
     document.addEventListener('mousemove', showNavbar);
     document.addEventListener('keydown',   showNavbar);
     navbar.addEventListener('mouseenter',  () => {
       clearTimeout(hideTimer);
+      mouseWatcher.style.pointerEvents = 'none';
       navbar.classList.remove('hidden');
     });
     navbar.addEventListener('mouseleave',  showNavbar);
