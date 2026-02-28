@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroTech — Presentación</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0a0f0a;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    /* ── iframe container ── */
+    #slide {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── nav bar ── */
+    #navbar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(10, 20, 10, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 40px;
+      padding: 10px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      z-index: 9999;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      user-select: none;
+    }
+
+    #navbar.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-50%) translateY(16px);
+    }
+
+    /* buttons */
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: #e2e8e2;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .nav-btn:hover { background: rgba(16,185,129,0.35); transform: scale(1.1); }
+    .nav-btn:active { transform: scale(0.95); }
+    .nav-btn:disabled { opacity: 0.25; cursor: default; transform: none; }
+    .nav-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* dots */
+    #dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.25s, transform 0.25s;
+      flex-shrink: 0;
+    }
+    .dot.active {
+      background: #10b981;
+      transform: scale(1.45);
+    }
+    .dot:hover:not(.active) {
+      background: rgba(255,255,255,0.5);
+    }
+
+    /* label */
+    #page-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #a3bfa3;
+      white-space: nowrap;
+      min-width: 160px;
+      text-align: center;
+    }
+    #page-label span {
+      color: #10b981;
+    }
+
+    /* counter */
+    #page-counter {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* divider */
+    .sep {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+
+    /* hint */
+    #hint {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10,20,10,0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      pointer-events: none;
+      z-index: 9998;
+      transition: opacity 0.6s ease;
+    }
+    #hint.gone { opacity: 0; }
+
+    /* loading overlay */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #0a0f0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9990;
+      transition: opacity 0.3s ease;
+    }
+    #loader.gone { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(16,185,129,0.2);
+      border-top-color: #10b981;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div id="loader"><div class="spinner"></div></div>
+
+  <iframe id="slide" src="" title="Página de presentación"></iframe>
+
+  <div id="hint">Usa ← → o Espacio para navegar &nbsp;·&nbsp; Mueve el mouse para ver controles</div>
+
+  <nav id="navbar">
+    <button class="nav-btn" id="btn-prev" title="Anterior (←)" aria-label="Página anterior">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+
+    <div id="dots"></div>
+
+    <div class="sep"></div>
+
+    <div id="page-label">—</div>
+
+    <div class="sep"></div>
+
+    <div id="page-counter">1 / 5</div>
+
+    <button class="nav-btn" id="btn-next" title="Siguiente (→)" aria-label="Página siguiente">
+      <svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+    </button>
+  </nav>
+
+  <script>
+    const PAGES = [
+      { file: 'pages/controlpanel.html',        label: 'Panel de Control'        },
+      { file: 'pages/crops.html',               label: 'Gestión de Cultivos'     },
+      { file: 'pages/livestock-inventory.html', label: 'Inventario de Ganado'    },
+      { file: 'pages/financial-analysis.html',  label: 'Análisis Financiero'     },
+      { file: 'pages/healt-producction.html',   label: 'Salud y Reproducción'    },
+    ];
+
+    let current = 0;
+
+    const iframe    = document.getElementById('slide');
+    const dotsEl    = document.getElementById('dots');
+    const labelEl   = document.getElementById('page-label');
+    const counterEl = document.getElementById('page-counter');
+    const btnPrev   = document.getElementById('btn-prev');
+    const btnNext   = document.getElementById('btn-next');
+    const navbar    = document.getElementById('navbar');
+    const loader    = document.getElementById('loader');
+    const hint      = document.getElementById('hint');
+
+    // Build dots
+    PAGES.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.title = PAGES[i].label;
+      d.setAttribute('aria-label', `Ir a: ${PAGES[i].label}`);
+      d.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(d);
+    });
+
+    function goTo(index) {
+      if (index < 0 || index >= PAGES.length) return;
+      current = index;
+
+      // show loader while iframe loads
+      loader.classList.remove('gone');
+
+      iframe.src = PAGES[current].file;
+
+      // update dots
+      dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+
+      // update label
+      const parts = PAGES[current].label.split(' ');
+      labelEl.innerHTML = `<span>${parts[0]}</span> ${parts.slice(1).join(' ')}`;
+
+      // update counter
+      counterEl.textContent = `${current + 1} / ${PAGES.length}`;
+
+      // update buttons
+      btnPrev.disabled = current === 0;
+      btnNext.disabled = current === PAGES.length - 1;
+    }
+
+    iframe.addEventListener('load', () => {
+      loader.classList.add('gone');
+    });
+
+    btnPrev.addEventListener('click', () => goTo(current - 1));
+    btnNext.addEventListener('click', () => goTo(current + 1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ')  { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'ArrowLeft')                    { e.preventDefault(); goTo(current - 1); }
+      if (e.key >= '1' && e.key <= '5')             goTo(parseInt(e.key) - 1);
+    });
+
+    // Auto-hide navbar on inactivity
+    let hideTimer = null;
+
+    function showNavbar() {
+      navbar.classList.remove('hidden');
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => navbar.classList.add('hidden'), 3000);
+    }
+
+    document.addEventListener('mousemove', showNavbar);
+    document.addEventListener('keydown',   showNavbar);
+    navbar.addEventListener('mouseenter',  () => {
+      clearTimeout(hideTimer);
+      navbar.classList.remove('hidden');
+    });
+    navbar.addEventListener('mouseleave',  showNavbar);
+
+    // Dismiss hint after 5 s
+    setTimeout(() => hint.classList.add('gone'), 5000);
+
+    // Init first page
+    goTo(0);
+    showNavbar();
+  </script>
+</body>
+</html>

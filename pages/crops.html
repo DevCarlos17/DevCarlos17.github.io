@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inventario de Cultivos y Sembríos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary/20 rounded-lg p-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">agriculture</span>
+</div>
+<div>
+<h1 class="text-sm font-bold leading-tight uppercase tracking-wider">Gestión Agrícola</h1>
+<p class="text-xs text-primary font-medium">Administrador</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Panel General</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">pets</span>
+<span class="text-sm font-medium">Ganado</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="text-sm font-bold">Cultivos</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-sm font-medium">Finanzas</span>
+</a>
+<div class="pt-6 pb-2 px-3">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Filtros Rápidos</p>
+</div>
+<div class="space-y-4 px-3 py-2">
+<div>
+<label class="text-xs font-semibold text-slate-500 mb-2 block">Tipo de Cultivo</label>
+<select class="w-full text-xs rounded-lg border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+<option>Todos</option>
+<option>Pasto de Corte</option>
+<option>Maíz Forrajero</option>
+<option>Alfalfa</option>
+</select>
+</div>
+<div>
+<label class="text-xs font-semibold text-slate-500 mb-2 block">Ubicación</label>
+<select class="w-full text-xs rounded-lg border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+<option>Sector Norte</option>
+<option>Sector Sur</option>
+<option>Zona de Riego</option>
+</select>
+</div>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all hover:bg-red-50 hover:text-red-600">
+<span class="material-symbols-outlined text-sm">logout</span>
+                    Cerrar Sesión
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
+<div class="flex items-center gap-8">
+<h2 class="text-lg font-bold">Inventario de Cultivos</h2>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-primary border-b-2 border-primary py-5" href="#">Lotes</a>
+<a class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-100" href="#">Historial</a>
+<a class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-100" href="#">Reportes</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/50" placeholder="Buscar lote o cultivo..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Profile picture of the administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYZ33Eo50fz5plSa1Tv5uKdPrYJUEAQ4il2WQ0eWOcN8gskKDa_6nFZqahhGqHJRhkgLKgAp5SqFlxVWF9m5g3t6CL_qfmSFOaKTSflPF1l9gJiFrTwbsV8MidwAR61ZOxWUHmpBoPlOfSsxn4_Xg2diDWiw2YF7vTOodkw1_Pl24evZwCsEfrf3hbwoxRlO73NMOeF3652fCdwLRcREdRIX36horUI15HJL9NFOxyXFCzul5JA4okgzpZG5EJs10wFcBefL4NOTTD"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-8">
+<!-- Page Title & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="text-3xl font-black tracking-tight mb-2">Inventario de Cultivos y Sembríos</h1>
+<p class="text-slate-500 max-w-2xl">Gestión centralizada de la producción agrícola. Monitorea el estado de crecimiento, aplicaciones de fertilizantes y ciclos de cosecha de cada lote.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold shadow-sm hover:bg-slate-50">
+<span class="material-symbols-outlined text-lg">download</span>
+                            Exportar PDF
+                        </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-slate-900 rounded-lg text-sm font-bold shadow-lg shadow-primary/20 hover:brightness-105 transition-all">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                            Registrar Nueva Siembra
+                        </button>
+</div>
+</div>
+<!-- Status Tabs -->
+<div class="flex gap-4 border-b border-slate-200 dark:border-slate-800 mb-8">
+<button class="px-4 py-2 text-sm font-bold border-b-2 border-primary text-slate-900 dark:text-slate-100">Todos los Lotes (12)</button>
+<button class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent">En Crecimiento (8)</button>
+<button class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-b-2 border-transparent">Listo para Cosecha (4)</button>
+</div>
+<!-- Crop Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+<div class="h-40 bg-slate-200 relative">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<img class="w-full h-full object-cover" data-alt="Lush green field of corn at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuiw9w39_1p4EPBUuWHy0AqtAMu96DmiGlhXiJUXi_zldtGhFHxAZ4ZIyT6ZeJas4aKF1bartn7eknm7rtU7TZ_u3VU_PK7veUoqYiS1BTUmmK_Yz2-JXG2e20-pM3R9f4wapT7sPAqwCiia3c_l19C-kQpnJslfv2OogCQv5aGmhaqOAVfiJ1_fPUTp8-Wtf0heBDaG3FUqYT5HpSwKQG0GUqaKAneJ8kcwbhsvombWMrBvyElUYwE6jw6BK1wh8tAVOeq8pfVcbZ"/>
+<span class="absolute top-3 right-3 px-2 py-1 bg-primary text-[10px] font-bold text-slate-900 rounded uppercase">Lote 01 - Norte</span>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold leading-tight">Maíz Híbrido XL</h3>
+<p class="text-xs text-slate-500">Sembrado el 15 Oct, 2023</p>
+</div>
+<div class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg text-[10px] font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                                    EN CRECIMIENTO
+                                </div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">water_drop</span>
+<span class="text-slate-600 dark:text-slate-400">Riego: <b class="text-slate-900 dark:text-slate-100">Programado (Hoy)</b></span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">science</span>
+<span class="text-slate-600 dark:text-slate-400">Fertilización: <b class="text-slate-900 dark:text-slate-100">Completa (N-P-K)</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<span class="text-xs font-bold text-slate-400">Progreso: 65%</span>
+<div class="flex -space-x-2">
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+<div class="h-40 bg-slate-200 relative">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<img class="w-full h-full object-cover" data-alt="Dense pasture field ready for harvest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsJek2vpvb3ARrR-vMMgeK5PTJg616gYE30BeMLdiikrXZIZm3NaDZwYgzaT3UkmjOh7wzGDQgiVGoT6LYaDVRufrxHsBMcLJL3v7zMJhCHGfwcC6afBojTzf7E_NwEg8jD8kJKeMxAemPr6cPCpaO1mH-vMmHEgqJb0fsi8SsalPIDcRUmcVNmBfiktt7sTJ-pvi1559gr_la3GyXDeH8NjG66RbDzcXZmnpFIzh1MFWi8s0z5ySSe28yGnEumGtUzgWLSCXYua3e"/>
+<span class="absolute top-3 right-3 px-2 py-1 bg-amber-400 text-[10px] font-bold text-slate-900 rounded uppercase">Lote 04 - Sur</span>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold leading-tight">Pasto de Corte (Mombaza)</h3>
+<p class="text-xs text-slate-500">Sembrado el 20 Sep, 2023</p>
+</div>
+<div class="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-lg text-[10px] font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                    LISTO COSECHA
+                                </div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">history</span>
+<span class="text-slate-600 dark:text-slate-400">Último Tratamiento: <b class="text-slate-900 dark:text-slate-100">Hace 12 días</b></span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">monitoring</span>
+<span class="text-slate-600 dark:text-slate-400">Rendimiento Est.: <b class="text-slate-900 dark:text-slate-100">45 Ton/Ha</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<span class="text-xs font-bold text-slate-400">Progreso: 100%</span>
+<div class="flex -space-x-2">
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+<div class="h-40 bg-slate-200 relative">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<img class="w-full h-full object-cover" data-alt="Alfalfa field sprouting from the ground" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARsyGtgm2BwOtqpCo9tUXKdZ8pHAZJf2KNmIX99Sl4PbQj8vIAZSZ2qDTTG6e6ajBj2w1COSVR_7USF6yiTotiS1Ir9H_LwfbWSAMlG9Ce1EtPbFy0XPfYsYXNx9_MpMuF3sHNza-HlMIxeqUR_LQmIi44yqIpVMGh-0Y1lQlCQqTbD2PGUIS_qlTYYqJTahv7Eb7qDEoJKSLXQ2taINazbOysMlGFRKHD0stY_Mqa49POANv_kXImpJquK3Yqt34yXqkLLphduSia"/>
+<span class="absolute top-3 right-3 px-2 py-1 bg-primary text-[10px] font-bold text-slate-900 rounded uppercase">Lote 07 - Riego</span>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-lg font-bold leading-tight">Alfalfa Orgánica</h3>
+<p class="text-xs text-slate-500">Sembrado el 05 Nov, 2023</p>
+</div>
+<div class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg text-[10px] font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                                    EN CRECIMIENTO
+                                </div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">water_drop</span>
+<span class="text-slate-600 dark:text-slate-400">Riego: <b class="text-slate-900 dark:text-slate-100">Goteo Activo</b></span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-slate-400">bug_report</span>
+<span class="text-slate-600 dark:text-slate-400">Plagas: <b class="text-slate-900 dark:text-slate-100">Sin alertas</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<span class="text-xs font-bold text-slate-400">Progreso: 20%</span>
+<div class="flex -space-x-2">
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-white dark:border-slate-900 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Statistics -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Hectáreas</p>
+<h4 class="text-2xl font-black text-slate-900 dark:text-slate-100">145.8 <span class="text-sm font-medium text-slate-400">Ha</span></h4>
+</div>
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Cosecha Próxima</p>
+<h4 class="text-2xl font-black text-slate-900 dark:text-slate-100">4 <span class="text-sm font-medium text-slate-400">Lotes</span></h4>
+</div>
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Gasto Fertilización</p>
+<h4 class="text-2xl font-black text-slate-900 dark:text-slate-100">$4,250 <span class="text-sm font-medium text-slate-400">USD</span></h4>
+</div>
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Eficiencia de Riego</p>
+<h4 class="text-2xl font-black text-primary">92%</h4>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
